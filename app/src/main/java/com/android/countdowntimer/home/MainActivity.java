@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.countdowntimer.R;
+import com.android.countdowntimer.completedevents.CompletedEvents;
 import com.android.countdowntimer.detail.EventDetailActivity;
 import com.android.countdowntimer.utils.DateTimeUtils;
 import com.android.countdowntimer.utils.NotificationUtils;
@@ -73,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                         if(input.getText() == null || input.getText().equals("")) {
                             Toast.makeText(getApplicationContext(),"Please Enter valid Name for the Event",Toast.LENGTH_LONG).show();
                         }
-                        // Do something with value!
                         name = input.getText().toString();
                         long date = DateTimeUtils.getCurrentTimeWithoutSec();
                         FragmentManager fm = getSupportFragmentManager();
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         // Canceled.
                     }
                 });
-                final AlertDialog show = alert.show();
+                alert.show();
             }
         });
         setupEventList();
@@ -113,14 +116,7 @@ public class MainActivity extends AppCompatActivity {
         mEventsAdapter.setEventItemActionListener(new EventItemActionListener() {
             @Override
             public void onItemSwiped(String eventId) {
-                Iterator<Event> iterator = events.iterator();
-                while (iterator.hasNext()) {
-                    Event event = iterator.next();
-                    if(event.getId().equals(eventId)) {
-                        iterator.remove();
-                    }
-                }
-                Paper.book().write("events", events);
+                deleteEvent(eventId);
                 refreshList(events);
             }
 
@@ -134,11 +130,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void filterCompletedEvents() {
-        boolean hasChanged = false;
         Iterator<Event> iterator = events.iterator();
         while (iterator.hasNext()) {
             Event event = iterator.next();
             if(event.getEndDate() < System.currentTimeMillis()) {
+               deleteEvent(event.getId());
+            }
+        }
+    }
+
+    private void deleteEvent(String id) {
+        boolean hasChanged = false;
+        Iterator<Event> iterator = events.iterator();
+        while (iterator.hasNext()) {
+            Event event = iterator.next();
+            if(event.getId().equals(id)) {
+                addToCompletedEvents(event);
                 iterator.remove();
                 hasChanged = true;
             }
@@ -146,6 +153,15 @@ public class MainActivity extends AppCompatActivity {
         if(hasChanged) {
             Paper.book().write("events", events);
         }
+    }
+
+    private void addToCompletedEvents(Event event) {
+        List<Event> completedEvents = Paper.book().read("completed_events");
+        if(completedEvents == null) {
+            completedEvents = new ArrayList<>();
+        }
+        completedEvents.add(event);
+        Paper.book().write("completed_events", completedEvents);
     }
 
     @Override
@@ -167,5 +183,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshList(List<Event> events) {
         mEventsAdapter.setEvents(events);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_show_completed_events:
+                showCompletedEvents();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showCompletedEvents() {
+        Intent intent = new Intent(MainActivity.this, CompletedEvents.class);
+        startActivity(intent);
     }
 }

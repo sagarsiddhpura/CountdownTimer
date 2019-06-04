@@ -1,2 +1,1 @@
-History of completed events
 export to JSON
