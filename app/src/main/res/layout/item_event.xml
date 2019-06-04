@@ -81,7 +81,7 @@
                 android:layout_marginBottom="2dp"
                 android:gravity="center_vertical">
 
-                <com.android.countdowntimer.TimerView
+                <com.android.countdowntimer.home.TimerView
                     android:id="@+id/event_timer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

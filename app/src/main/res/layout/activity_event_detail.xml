@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".home.MainActivity"
+    tools:showIn="@layout/activity_event_detail">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/transparent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tasks_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/spacing_smaller"
+                app:layout_collapseMode="pin">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:weightSum="3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="224dp"
+            android:layout_height="224dp"
+            app:lottie_rawRes="@raw/stopwatch"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            android:layout_margin="@dimen/spacing_normal"/>
+
+        <com.android.countdowntimer.home.TimerView
+            android:id="@+id/event_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_normal"
+            app:isTimeTextBold="true"
+            app:suffixDay="@string/day"
+            app:suffixDayRightMargin="@dimen/spacing_tiny"
+            app:suffixGravity="top"
+            app:suffixHour="@string/hour"
+            app:suffixHourRightMargin="@dimen/spacing_tiny"
+            app:suffixMinute="@string/minute"
+            app:suffixMinuteRightMargin="@dimen/spacing_tiny"
+            app:suffixSecond="@string/second"
+            app:suffixSecondRightMargin="@dimen/spacing_tiny"
+            app:suffixTextColor="@color/teal_600"
+            app:suffixTextSize="@dimen/font_large"
+            app:timeTextColor="@color/teal_700"
+            app:timeTextSize="@dimen/font_larger" />
+
+        <TextView
+            android:id="@+id/event_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black_secondary"
+            android:textSize="@dimen/font_normal"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="@dimen/spacing_big"
+            tools:text="14/07"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

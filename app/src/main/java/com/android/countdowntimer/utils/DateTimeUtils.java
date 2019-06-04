@@ -1,6 +1,8 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.utils;
 
 import android.content.Context;
+
+import com.android.countdowntimer.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

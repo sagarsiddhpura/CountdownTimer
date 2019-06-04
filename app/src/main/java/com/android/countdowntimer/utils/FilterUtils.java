@@ -1,4 +1,7 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.utils;
+
+import com.android.countdowntimer.home.StateType;
+import com.android.countdowntimer.home.Event;
 
 import java.util.ArrayList;
 import java.util.List;

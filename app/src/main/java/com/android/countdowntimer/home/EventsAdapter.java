@@ -1,20 +1,20 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.home;
 
 import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.countdowntimer.R;
+import com.android.countdowntimer.utils.DateTimeUtils;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.material.card.MaterialCardView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.iwgang.countdownview.CountdownView;
@@ -58,7 +58,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
         private void bind(Event event) {
             mEvent = event;
-            mDueDate.setText(DateTimeUtils.longToString(mEvent.getEndDate(), DateTimeUtils.DATE));
+            mDueDate.setText(DateTimeUtils.longToString(mEvent.getEndDate(), DateTimeUtils.TIME) + "\n" +
+                    DateTimeUtils.longToString(mEvent.getEndDate(), DateTimeUtils.DATE));
             refreshNormal(mEvent);
             if(event.getEndDate() < System.currentTimeMillis()) {
                 mTimer.stop();
@@ -148,12 +149,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         holder.mTimer.stop();
     }
 
-    void setEvents(List<Event> events) {
+    public void setEvents(List<Event> events) {
         mEvents = events;
         notifyDataSetChanged();
     }
 
-    void setEventItemActionListener(EventItemActionListener listener) {
+    public void setEventItemActionListener(EventItemActionListener listener) {
         mEventItemActionListener = listener;
     }
 }

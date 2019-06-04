@@ -1,4 +1,4 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.home;
 
 import android.graphics.Canvas;
 import android.view.ViewGroup;

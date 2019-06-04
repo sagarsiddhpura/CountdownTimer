@@ -1,4 +1,4 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.utils;
 
 import androidx.annotation.NonNull;
 

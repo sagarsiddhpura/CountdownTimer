@@ -1,4 +1,4 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.home;
 
 public interface EventItemActionListener {
     void onItemSwiped(String eventId);

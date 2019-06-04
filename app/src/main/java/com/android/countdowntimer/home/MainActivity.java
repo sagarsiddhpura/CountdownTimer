@@ -1,4 +1,4 @@
-package com.android.countdowntimer;
+package com.android.countdowntimer.home;
 
 import android.app.Activity;
 import android.app.NotificationChannel;
@@ -17,8 +17,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.countdowntimer.R;
+import com.android.countdowntimer.detail.EventDetailActivity;
+import com.android.countdowntimer.utils.DateTimeUtils;
+import com.android.countdowntimer.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_main);
         Toolbar toolbar = findViewById(R.id.tasks_toolbar);
         setSupportActionBar(toolbar);
-        setupSystemUI();
+        Utils.setupSystemUI(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(EVENT_NOTIFICATION_ID, getString(R.string.event_notification), NotificationManager.IMPORTANCE_HIGH);
@@ -68,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutAnimation(animationController);
 
         events = Paper.book().read("events");
+        if(events == null) {
+            events = new ArrayList<>();
+            Paper.book().write("events", events);
+        }
         filterCompletedEvents();
         refreshList(events);
 
@@ -87,7 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemClicked(String eventId) {
-
+                Intent intent = new Intent(MainActivity.this, EventDetailActivity.class);
+                intent.putExtra("EVENT_ID", eventId);
+                startActivity(intent);
             }
         });
     }
@@ -104,15 +115,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if(hasChanged) {
             Paper.book().write("events", events);
-        }
-    }
-
-    private void setupSystemUI() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.teal_200));
-        } else {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.white, null));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 
