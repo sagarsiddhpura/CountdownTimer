@@ -1,5 +1,6 @@
 package com.android.countdowntimer.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.countdowntimer.R;
-import com.android.countdowntimer.completedevents.CompletedEvents;
+import com.android.countdowntimer.completedevents.CompletedEventsActivity;
 import com.android.countdowntimer.detail.EventDetailActivity;
 import com.android.countdowntimer.utils.DateTimeUtils;
 import com.android.countdowntimer.utils.NotificationUtils;
@@ -33,6 +33,14 @@ import com.android.countdowntimer.utils.RemindType;
 import com.android.countdowntimer.utils.ReminderUtils;
 import com.android.countdowntimer.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.snatik.storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -199,13 +207,36 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_show_completed_events:
                 showCompletedEvents();
                 return true;
+            case R.id.action_export_events:
+                exportEventsToJson();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void exportEventsToJson() {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
+                        Gson gson = new Gson();
+                        String userJson = gson.toJson(events);
+                        // init
+                        Storage storage = new Storage(getApplicationContext());
+
+                        // get external storage
+                        String path = storage.getExternalStorageDirectory();
+                        storage.createFile(path+"/CountdownTimer.json", userJson);
+                        Toast.makeText(getApplicationContext(),"Events exported to Json in file:" + path + "/CountdownTimer.json",Toast.LENGTH_LONG).show();
+                    }
+                    @Override public void onPermissionDenied(PermissionDeniedResponse response) {/* ... */}
+                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {/* ... */}
+                }).check();
+    }
+
     private void showCompletedEvents() {
-        Intent intent = new Intent(MainActivity.this, CompletedEvents.class);
+        Intent intent = new Intent(MainActivity.this, CompletedEventsActivity.class);
         startActivity(intent);
     }
 }

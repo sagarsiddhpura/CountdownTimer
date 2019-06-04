@@ -37,6 +37,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 event = e;
             }
         }
+        getSupportActionBar().setTitle(event.getTitle());
         TimerView mTimer = findViewById(R.id.event_timer);
         mTimer.start(event.getEndDate() - System.currentTimeMillis());
 

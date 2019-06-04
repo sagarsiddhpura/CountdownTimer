@@ -25,7 +25,7 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
-public class CompletedEvents extends AppCompatActivity {
+public class CompletedEventsActivity extends AppCompatActivity {
 
     private List<Event> events;
     private CompletedEventsAdapter mEventsAdapter;

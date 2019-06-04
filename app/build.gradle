@@ -52,17 +52,16 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
     // Material
     implementation "com.google.android.material:material:$material_version"
     implementation 'com.github.iwgang:countdownview:2.1.6'
     implementation 'com.github.vipulasri:timelineview:1.0.6'
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation 'io.paperdb:paperdb:2.6'
     compile('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true;
     }
     implementation 'com.airbnb.android:lottie:3.0.6'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.snatik:storage:2.1.0'
+    implementation 'com.karumi:dexter:5.0.0'
 }

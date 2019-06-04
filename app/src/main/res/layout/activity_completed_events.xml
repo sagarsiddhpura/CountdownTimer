@@ -30,23 +30,6 @@
                 android:layout_marginTop="@dimen/spacing_smaller"
                 app:layout_collapseMode="pin">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="8dp">
-
-                    <TextClock
-                        android:id="@+id/clock"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:format12Hour="@string/clock_format"
-                        android:format24Hour="@string/clock_format"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/font_big" />
-
-                </RelativeLayout>
-
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
