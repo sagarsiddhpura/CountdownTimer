@@ -61,6 +61,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             mDueDate.setText(DateTimeUtils.longToString(mEvent.getEndDate(), DateTimeUtils.TIME) + "\n" +
                     DateTimeUtils.longToString(mEvent.getEndDate(), DateTimeUtils.DATE));
             refreshNormal(mEvent);
+            mTitle.setText(event.getTitle());
             if(event.getEndDate() < System.currentTimeMillis()) {
                 mTimer.stop();
                 mEventItemActionListener.onItemSwiped(event.getId());

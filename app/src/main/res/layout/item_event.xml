@@ -32,22 +32,13 @@
         app:cardCornerRadius="3dp"
         app:cardElevation="0dp">
 
-        <ProgressBar
-            android:id="@+id/event_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:max="100"
-            android:progressDrawable="@drawable/custom_event_progress"
-            android:scaleY="20" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
-            android:paddingTop="@dimen/spacing_big"
-            android:paddingBottom="@dimen/spacing_big">
+            android:paddingTop="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/spacing_normal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,9 +57,10 @@
                     android:maxLines="1"
                     android:paddingEnd="@dimen/spacing_normal"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/font_big"
                     tools:text="@string/normal_event"
-                    android:visibility="gone"/>
+                    android:layout_marginBottom="4dp"
+                    android:visibility="visible"/>
 
             </LinearLayout>
 

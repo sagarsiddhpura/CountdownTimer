@@ -3,14 +3,18 @@ package com.android.countdowntimer.home;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private EventsAdapter mEventsAdapter;
     private static final String DIALOG_DATE = "DATE";
     private List<Event> events;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +62,32 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long date = DateTimeUtils.getCurrentTimeWithoutSec();
-                FragmentManager fm = getSupportFragmentManager();
-                DateDialogFragment dialogFragment = DateDialogFragment.newInstance(date, false);
-                dialogFragment.show(fm, DIALOG_DATE);
+                final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                alert.setTitle("Add Event");
+                // Create TextView
+                final EditText input = new EditText (MainActivity.this);
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if(input.getText() == null || input.getText().equals("")) {
+                            Toast.makeText(getApplicationContext(),"Please Enter valid Name for the Event",Toast.LENGTH_LONG).show();
+                        }
+                        // Do something with value!
+                        name = input.getText().toString();
+                        long date = DateTimeUtils.getCurrentTimeWithoutSec();
+                        FragmentManager fm = getSupportFragmentManager();
+                        DateDialogFragment dialogFragment = DateDialogFragment.newInstance(date, false);
+                        dialogFragment.show(fm, DIALOG_DATE);
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+                final AlertDialog show = alert.show();
             }
         });
         setupEventList();
@@ -132,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         String eventId = String.valueOf(System.currentTimeMillis());
-        events.add(new Event("", "", 0, endDate, StateType.ONGOING, false, 0, eventId, 0, "", System.currentTimeMillis()));
-        NotificationUtils.buildNormalReminder(getApplication(), endDate, "", RemindType.SINGLE_DUE_DATE, ReminderUtils.getSingleRemindInterval(RemindType.SINGLE_DUE_DATE), eventId);
+        events.add(new Event(name, "", 0, endDate, StateType.ONGOING, false, 0, eventId, 0, "", System.currentTimeMillis()));
+        NotificationUtils.buildNormalReminder(getApplication(), endDate, name, RemindType.SINGLE_DUE_DATE, ReminderUtils.getSingleRemindInterval(RemindType.SINGLE_DUE_DATE), eventId);
         Paper.book().write("events", events);
         refreshList(events);
     }
