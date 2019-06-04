@@ -20,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.countdowntimer.R;
 import com.android.countdowntimer.detail.EventDetailActivity;
 import com.android.countdowntimer.utils.DateTimeUtils;
+import com.android.countdowntimer.utils.NotificationUtils;
+import com.android.countdowntimer.utils.RemindType;
+import com.android.countdowntimer.utils.ReminderUtils;
 import com.android.countdowntimer.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -128,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"End Date cannot be in Past",Toast.LENGTH_LONG).show();
             return;
         }
-        events.add(new Event("", "", 0, endDate, StateType.ONGOING, false, 0, String.valueOf(System.currentTimeMillis()), 0, "", System.currentTimeMillis()));
+        String eventId = String.valueOf(System.currentTimeMillis());
+        events.add(new Event("", "", 0, endDate, StateType.ONGOING, false, 0, eventId, 0, "", System.currentTimeMillis()));
+        NotificationUtils.buildNormalReminder(getApplication(), endDate, "", RemindType.SINGLE_DUE_DATE, ReminderUtils.getSingleRemindInterval(RemindType.SINGLE_DUE_DATE), eventId);
         Paper.book().write("events", events);
         refreshList(events);
     }
