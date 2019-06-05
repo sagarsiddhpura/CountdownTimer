@@ -1,5 +1,5 @@
 # CountdownTimer
-![icon](https://github.com/Gwokhov/Deadline/blob/master/pic/ic.png)
+![icon](https://github.com/sagarsiddhpura/CountdownTimer/blob/master/pic/ic.png)
 
 A simple countdown timer Android app built with Kotlin, Java, Android JetPack, Material Design, Lottie, Gson
 
