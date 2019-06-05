@@ -11,7 +11,7 @@ A simple countdown timer Android app built with Kotlin, Java, Android JetPack, M
 - Simple UI
 
 ## Preview:
-![preview](https://github.com/Gwokhov/Deadline/blob/master/pic/screenshots_combined.jpg)
+![preview](https://github.com/sagarsiddhpura/CountdownTimer/blob/master/pic/screenshots_combined.jpg)
 
 ## Android Libraries
 - Kotlin
